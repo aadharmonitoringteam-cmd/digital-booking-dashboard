@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Daily Booking Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">OPERATIONS DASHBOARD</div>
+    <h1>Daily Booking Report</h1>
+    <p id="sourceStatus">Loading Excel report…</p>
+  </div>
+  <div class="actions">
+    <label class="upload">
+      <input id="fileInput" type="file" accept=".xlsx,.xls,.csv">
+      <span>Upload Daily Excel</span>
+    </label>
+    <button id="resetBtn" class="btn secondary">Use GitHub Excel</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="filters card">
+    <div class="filter">
+      <label>Division</label>
+      <select id="divisionFilter"><option value="">All Divisions</option></select>
+    </div>
+    <div class="filter">
+      <label>Office search</label>
+      <input id="officeFilter" type="search" placeholder="Search office name or ID">
+    </div>
+    <div class="filter">
+      <label>Rows</label>
+      <select id="rowsFilter">
+        <option value="10">10</option><option value="25" selected>25</option>
+        <option value="50">50</option><option value="100">100</option>
+      </select>
+    </div>
+    <button id="clearBtn" class="btn">Clear Filters</button>
+  </section>
+
+  <section class="kpis">
+    <div class="kpi card"><span>Total Transactions</span><strong id="totalCnt">—</strong><small>All booking/payment categories</small></div>
+    <div class="kpi card"><span>Total Amount</span><strong id="totalAmt">—</strong><small>Sum of amount columns</small></div>
+    <div class="kpi card"><span>Offices</span><strong id="officeCnt">—</strong><small>Offices in current view</small></div>
+    <div class="kpi card"><span>Divisions</span><strong id="divisionCnt">—</strong><small>Divisions in current view</small></div>
+  </section>
+
+  <section class="grid2">
+    <div class="card chart-card"><div class="card-head"><h2>Division-wise Transactions</h2><span>Count</span></div><canvas id="divisionChart"></canvas></div>
+    <div class="card chart-card"><div class="card-head"><h2>Division-wise Amount</h2><span>₹</span></div><canvas id="amountChart"></canvas></div>
+  </section>
+
+  <section class="grid2">
+    <div class="card chart-card"><div class="card-head"><h2>Payment Mode / Category</h2><span>Count</span></div><canvas id="modeChart"></canvas></div>
+    <div class="card chart-card"><div class="card-head"><h2>Top 10 Offices</h2><span>Count</span></div><canvas id="officeChart"></canvas></div>
+  </section>
+
+  <section class="card table-card">
+    <div class="card-head">
+      <div><h2>Office Performance</h2><span id="tableMeta"></span></div>
+      <button id="downloadBtn" class="btn secondary">Download CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Office</th><th>Division</th><th>Transactions</th><th>Amount</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="pager"><button id="prevBtn" class="btn secondary">← Previous</button><span id="pageInfo"></span><button id="nextBtn" class="btn secondary">Next →</button></div>
+  </section>
+
+  <footer>
+    <span>Daily Booking Dashboard</span>
+    <span>Data is processed in your browser. Uploading a file does not send it to this site.</span>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
