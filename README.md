@@ -3,7 +3,7 @@
 Responsive dashboard for the **Daily Booking Report** Excel file.
 
 ### Current sample data
-- Daily Booking Report rows: 505
+- Digital Booking Report rows: 505
 - Divisions: 8
 - Sample total transactions: 21,986
 - Sample total amount: ₹1,272,141.63
