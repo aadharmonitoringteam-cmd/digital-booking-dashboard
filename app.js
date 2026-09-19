@@ -1,4 +1,59 @@
-let allRows=[], filteredRows=[], page=1, charts={};
+// CSV File Upload ya Process hone par ye function call karein
+function generateDivisionSummary(csvData) {
+  // Digital Count waale columns ki list
+  const digitalColumns = [
+    'DQR Scan (Cnt)', 'SBIPOS-CARD (Cnt)', 'SBIPOS BHARATQR (Cnt)',
+    'SBIEPAY BHARATQR (Cnt)', 'SBIEPAY UPI (Cnt)', 'SBIEPAY Credit Card (Cnt)',
+    'SBIEPAY Debit Card (Cnt)', 'SBIEPAY NEFT (Cnt)', 'RTGS (Cnt)', 
+    'Wallet (Cnt)', 'POSB (Cnt)', 'IPPB (Cnt)', 'Other (Cnt)'
+  ];
+
+  const tbody = document.getElementById('summaryTableBody');
+  const tfoot = document.getElementById('summaryTableFooter');
+  
+  tbody.innerHTML = '';
+  tfoot.innerHTML = '';
+
+  let grandCash = 0;
+  let grandDigital = 0;
+
+  // 'Summary (All Offices)' row ko ignore karke sirf Division rows filter karein
+  const divisionsData = csvData.filter(row => row.Division && row.Division !== 'Summary (All Offices)');
+
+  divisionsData.forEach(row => {
+    const cash = parseFloat(row['Cash (Cnt)']) || 0;
+    
+    // Digital columns ka sum
+    let digital = 0;
+    digitalColumns.forEach(col => {
+      digital += parseFloat(row[col]) || 0;
+    });
+
+    const total = cash + digital;
+    const pct = total > 0 ? ((digital / total) * 100).toFixed(2) : "0.00";
+
+    grandCash += cash;
+    grandDigital += digital;
+
+    // Color code condition (Image ki tarah)
+    let colorStyle = "background-color: #70ad47; color: white;"; // Dark Green (>85%)
+    if (pct < 60) {
+      colorStyle = "background-color: #fff2cc; color: black;"; // Yellow (<60%)
+    } else if (pct < 85) {
+      colorStyle = "background-color: #c6efce; color: black;"; // Light Green (60-85%)
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.Division}</td>
+      <td class="text-end">${cash}</td>
+      <td class="text-end">${digital}</td>
+      <td class="text-end">${total}</td>
+      <td class="text-end" style="${colorStyle} font-weight: bold;">${pct}%</td>
+    `;
+    tbody.appendChild(tr);
+  });     
+  let allRows=[], filteredRows=[], page=1, charts={};
 const $=id=>document.getElementById(id);
 const countCols=[], amountCols=[];
 let headers=[];
