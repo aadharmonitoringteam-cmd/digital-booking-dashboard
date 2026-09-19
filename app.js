@@ -49,3 +49,6 @@ async function readWorkbook(arrayBuffer, sourceName) {
   
   applyFilters();
 }
+  
+  applyFilters();
+}
